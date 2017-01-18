@@ -1,0 +1,12 @@
+.quote-section {
+  margin-top: 10%;
+}
+
+.quote-section .container {
+  background-color: white;
+}
+
+.quote {
+  padding: 20px 20px 20px 20px;
+  font-weight: bold;
+}
