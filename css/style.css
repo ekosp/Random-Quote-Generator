@@ -2,11 +2,24 @@
   margin-top: 10%;
 }
 
-.quote-section .container {
+.quote-column {
   background-color: white;
 }
 
-.quote {
-  padding: 20px 20px 20px 20px;
+.quote-column .container-fluid {
+
+}
+
+.quote-rows {
+  padding: 35px 25px 35px 25px;
+}
+
+.quote-content-row {
   font-weight: bold;
+  font-size: 25px;
+  margin-left: 10px; /*to create a left border*/
+}
+
+.quote-author, .quote-social-row {
+  padding-top: 20px;
 }
