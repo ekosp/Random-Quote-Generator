@@ -4,6 +4,7 @@
 
 .quote-column {
   background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 16px 20px 0 rgba(0, 0, 0, 0.19); /*paper shadow*/
 }
 
 .quote-rows {
@@ -34,4 +35,17 @@
 
 .new-quote-btn:hover, .tweet-quote:hover { /* NO SPACE before HOVER otherwise hover doesn't work :P*/
   opacity: 0.8 !important;
+}
+
+footer {
+  margin-top: 20px;
+}
+
+footer a {
+  color: white;
+}
+
+footer a:hover {
+  text-decoration: none;
+  color: white;
 }
