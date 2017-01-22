@@ -37,6 +37,8 @@ $(document).ready(function() {
     return colorCombo;
   }
 
+  // based on foreground and background color combo, assign colors
+  // to different objects on the screen
   function changeColorsOfScreen (colorCombo) {
     $("body").css("background-color", colorCombo.backColor);
     $(".quote-placeholder").css("color", colorCombo.foreColor);
@@ -46,9 +48,17 @@ $(document).ready(function() {
     $(".quote-author").css("color", colorCombo.backColor);
     $(".quote-content-parent").css("background-color", colorCombo.backColor);
 
-    $(".btn-twitter").css("background-color", colorCombo.backColor);
+    $(".new-quote-btn").css("background-color", colorCombo.backColor);
+    $(".new-quote-btn").css("color", colorCombo.foreColor);
+
     $(".tweet-quote").css("background-color", colorCombo.backColor);
     $(".fa-twitter").css("color", colorCombo.foreColor);
+  }
+
+  function cleanPalette () {
+    quoteContent = "";
+    $(".quote-content-row").html("");
+    $(".quote-author").html("");
   }
 
   // Initial random quote population
@@ -56,22 +66,31 @@ $(document).ready(function() {
     $(".quote").html(val[0].content);
   });*/
 
+  function cleanupQuoteContent (quoteContent) {
+    quoteContent = quoteContent
+      .replace("<p>","") // removes <p> attribute
+      .replace("</p>","") // removes </p> attribute
+      .replace("\n",""); // removes newline char
+    quoteContent = quoteContent.substring(0, quoteContent.length - 1); // removes 1 unnecessary space from the very end
+
+    return quoteContent;
+  }
+
   function requestQuote (colorCombo) {
-    var isSuccess = true;
     var backColor = colorCombo.backColor;
     var foreColor = colorCombo.foreColor;
+
     $.ajax( {
       url: randomQuoteUrl,
       success: function(data) {
+
         var firstQuote = data.shift();
         if (firstQuote.content.length > MAX_QUOTE_LEN) {
-          isSuccess = false;
+          console.log("LONG QUOTE received. Will try again.");
+
+          requestQuote (colorCombo);
         } else {
-          quoteContent = firstQuote.content
-            .replace("<p>","") // removes <p> attribute
-            .replace("</p>","") // removes </p> attribute
-            .replace("\n",""); // removes newline char
-          quoteContent = quoteContent.substring(0, quoteContent.length - 1); // removes 1 unnecessary space from the very end
+          quoteContent = cleanupQuoteContent(firstQuote.content);
 
           var quoteContent_ = faQuoteStartLeft + SPACE + quoteContent + SPACE + faQuoteStartRight; // adding start and end quote marks to quote content
 
@@ -82,18 +101,23 @@ $(document).ready(function() {
           $(".quote-author").html(firstQuote.title);
 
           quoteAuthor = firstQuote.title;
-          isSuccess = true;
         }
       },
       cache: false
     });
-    return isSuccess;
+
+    // No point doing anything here because it will happen
+    // before the callback function is called
   }
 
   function requestQuoteTillNecessary () {
     var colorCombo = getRandomForeBackColorCombo();
+
+    cleanPalette();
+
     changeColorsOfScreen(colorCombo);
-    while(! requestQuote(colorCombo));
+
+    requestQuote(colorCombo);
   }
 
   function tweetQuote () {
@@ -108,6 +132,8 @@ $(document).ready(function() {
   }
 
   /* ====== DEFAULT-START =====*/
+
+  $(".new-quote-btn").css("height", $(".tweet-quote").outerHeight()); // outerHeight includes height + padding
 
   // Initializing foreground and background color
   var initColorCombo = getRandomForeBackColorCombo();

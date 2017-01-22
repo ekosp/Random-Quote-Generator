@@ -6,10 +6,6 @@
   background-color: white;
 }
 
-.quote-column .container-fluid {
-
-}
-
 .quote-rows {
   padding: 35px 25px 35px 25px;
 }
@@ -18,12 +14,24 @@
   font-weight: bold;
   font-size: 25px;
 }
+.quote-author {
+  padding-top: 20px;
+}
 
-.quote-author, .quote-social-row {
+.quote-social-row {
   padding-top: 30px;
 }
 
 .quote-author {
   font-size: 20px;
   font-style: italic;
+}
+
+.new-quote-btn {
+  font-weight: bold;
+  outline: none !important; // to remove unwanted border created around the button when clicked
+}
+
+.new-quote-btn:hover, .tweet-quote:hover { /* NO SPACE before HOVER otherwise hover doesn't work :P*/
+  opacity: 0.8 !important;
 }
